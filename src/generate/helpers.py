@@ -130,7 +130,8 @@ def generate_fake_hour(n_entries, equal_range, ddos, base_date, ips, ifa, langs,
             list(
                 zip(
                     dates, np.random.choice(ips, n_entries), [ifa] * n_entries,
-                    np.random.choice(cities, size=n_entries), np.random.choice(langs, size=n_entries)
+                    np.random.choice(cities, size=n_entries), np.random.choice(langs, size=n_entries),
+                    [1] * n_entries  # Fake flag
                 )
             )
         )
@@ -141,7 +142,7 @@ def generate_fake_hour(n_entries, equal_range, ddos, base_date, ips, ifa, langs,
         for _ in range(int(n_entries)):
             records.append(
                 (random_date_in_interval(base_date, interval=interval), np.random.choice(ips),
-                 ifa, np.random.choice(cities), np.random.choice(langs))
+                 ifa, np.random.choice(cities), np.random.choice(langs), 1)
             )
         return random_cutoff(records)
     else:
@@ -149,6 +150,6 @@ def generate_fake_hour(n_entries, equal_range, ddos, base_date, ips, ifa, langs,
         for _ in range(int(n_entries)):
             records.append(
                 (random_date_in_interval(base_date), np.random.choice(ips),
-                 ifa, np.random.choice(cities), np.random.choice(langs))
+                 ifa, np.random.choice(cities), np.random.choice(langs), 1)
             )
         return random_cutoff(records)

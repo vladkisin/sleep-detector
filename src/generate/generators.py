@@ -35,7 +35,7 @@ def generate_human_entries(ip_space, lang_space, lang_p, city_space, city_p):
         base_date = datetime(2022, 12, base_num_day, start, 0)  # Day in December 2022
         for _ in range(int(n_entries)):
             records.append(
-                (random_date_in_interval(base_date), np.random.choice(ips), ifa, lang, city)
+                (random_date_in_interval(base_date), np.random.choice(ips), ifa, city, lang, 0)
             )
     return records
 
