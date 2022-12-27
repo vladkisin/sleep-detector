@@ -114,7 +114,7 @@ def generate_n_dates_equal(start_date, n_dates):
 def random_cutoff(records):
     if len(records) == 0:
         return records
-    if np.random.random() > 0.9:
+    if np.random.random() > 0.8:
         dat = np.random.randint(0, len(records), size=2)
         a, b = min(dat), max(dat)
     else:
