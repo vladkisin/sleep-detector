@@ -11,25 +11,42 @@ class Preprocessor:
         self.agg_trns = agg_trns
         self.hours = list(range(24))
 
+    def update_input_keys(self, new_input_keys):
+        self.input_keys = new_input_keys
+
     def fit_transform(self, df):
-        df.sort_values([self.input_keys.PRIMARY_KEY, self.input_keys.TIME_KEY], inplace=True)
+        df = df.copy()
+        df.sort_values(
+            [self.input_keys.PRIMARY_KEY, self.input_keys.TIME_KEY], inplace=True
+        )
         df.reset_index(drop=True, inplace=True)
-        df = self._extract_times(df, transformation=self.ohe.fit_transform)  # Extract time diffs and hour sum
+        df = self._extract_times(
+            df, transformation=self.ohe.fit_transform
+        )  # Extract time diffs and hour sum
         self.is_fitted = True
         df_feats = self._apply_transforms(df)  # Apply feature transformation defined in config
         df_hours, df_norm, df_cumulated_norm = self._apply_time_transforms(df)
-        final_df = self._concatenate_dfs(df_feats, df_hours, df_norm, df_cumulated_norm)
+        final_df = self._concatenate_dfs(
+            df_feats, df_hours, df_norm, df_cumulated_norm
+        )
         return final_df
 
     def transform(self, df):
+        df = df.copy()
         if not self.is_fitted:
             raise RuntimeError("Trying to apply unfitted preprocessor")
-        df.sort_values([self.input_keys.PRIMARY_KEY, self.input_keys.TIME_KEY], inplace=True)
+        df.sort_values(
+            [self.input_keys.PRIMARY_KEY, self.input_keys.TIME_KEY], inplace=True
+        )
         df.reset_index(drop=True, inplace=True)
-        df = self._extract_times(df, transformation=self.ohe.transform)  # Extract time diffs and hour sum
+        df = self._extract_times(
+            df, transformation=self.ohe.transform
+        )  # Extract time diffs and hour sum
         df_feats = self._apply_transforms(df)  # Apply feature transformation defined in config
         df_hours, df_norm, df_cumulated_norm = self._apply_time_transforms(df)
-        final_df = self._concatenate_dfs(df_feats, df_hours, df_norm, df_cumulated_norm)
+        final_df = self._concatenate_dfs(
+            df_feats, df_hours, df_norm, df_cumulated_norm
+        )
         return final_df
 
     def _extract_times(self, df, transformation):
@@ -48,7 +65,9 @@ class Preprocessor:
         return df
 
     def _apply_transforms(self, df):
-        df_feats = df.groupby(self.input_keys.PRIMARY_KEY, as_index=False).agg(self.agg_trns.transforms)
+        df_feats = df.groupby(
+            self.input_keys.PRIMARY_KEY, as_index=False
+        ).agg(self.agg_trns.transforms)
         return df_feats
 
     def _apply_time_transforms(self, df):
@@ -74,7 +93,8 @@ class Preprocessor:
 
         return df_hours, df_norm, df_cumulated_norm
 
-    def _concatenate_dfs(self, df_feats, df_hours, df_norm, df_cumulated_norm):
+    def _concatenate_dfs(self, df_feats, df_hours,
+                         df_norm, df_cumulated_norm):
         final_df = pd.concat(
             (
                 df_hours, df_norm.add_prefix('NORM_'), df_cumulated_norm.add_prefix('CUMNORM_'),
@@ -82,5 +102,7 @@ class Preprocessor:
             ),
             axis=1
         )
-        final_df.drop(columns=self.input_keys.unused_columns, errors='ignore', inplace=True)
+        final_df.drop(
+            columns=self.input_keys.unused_columns, errors='ignore', inplace=True
+        )
         return final_df
