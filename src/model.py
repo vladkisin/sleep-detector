@@ -55,6 +55,6 @@ class BotDetector:
         if save_to_disk:
             final_df[
                 [self.input_keys.PRIMARY_KEY, 'IS_BOT']
-            ].to_csv(DATA_PATH / (file_path.split('.')[0] + 'result.csv'))
+            ].to_csv(DATA_PATH / (file_path.split('.')[0] + '_result.csv'), index=False)
         else:
             return final_df[[self.input_keys.PRIMARY_KEY, 'IS_BOT']]
