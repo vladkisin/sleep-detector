@@ -31,9 +31,11 @@ class ForestWrapper:
 
 
 class BotDetector:
-    def __init__(self, clf, preprocessor: Preprocessor, input_keys: InputKeys):
+    def __init__(self, clf, preprocessor: Preprocessor, input_keys=None):
         self.clf = clf
         self.preprocessor = preprocessor
+        if input_keys is None:
+            input_keys = self.preprocessor.input_keys
         self.input_keys = input_keys
         self.preprocessor.update_input_keys(input_keys)
 

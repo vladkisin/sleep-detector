@@ -1,5 +1,7 @@
+import pickle
 from dataclasses import dataclass, field
 from typing import List, Tuple
+from src.config import MODELS_PATH
 
 
 @dataclass
@@ -35,3 +37,17 @@ class AggTransforms:
             self.input_keys.CITY_KEY: self.city,
             self.input_keys.LANG_KEY: self.lang,
         }
+
+
+def pickle_model_obj(obj, name):
+    with open(MODELS_PATH / name, 'wb') as file:
+        pickle.dump(obj, file)
+
+
+def unpickle_model_obj(name):
+    with open(MODELS_PATH / name, 'rb') as file:
+        return pickle.load(file)
+
+
+input_keys = InputKeys()
+agg_trns = AggTransforms(input_keys=input_keys)
