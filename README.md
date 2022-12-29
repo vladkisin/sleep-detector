@@ -36,7 +36,7 @@ For everything to work properly one should strictly follow the specifications of
 
 To reproduce the environment, a recommended way is to use the docker image.
 
-### Reach out the CLI with docker image:
+### Option 1: Reach out the CLI with Docker image:
 The following set of commands should be performed in a folder that one wants to provide input data and store the results in (it would be mounted as volume to the container).
 On Windows one should run `wsl` command before executing the rest. [In case WSL and Linux on Windows is not installed](https://learn.microsoft.com/en-us/windows/wsl/install).
 ```console
@@ -44,9 +44,10 @@ docker pull uladzislaukisin/sleepdetect:latest  # Pull the image from docker hub
 docker run -dit --name sleepdetect -v $(pwd):/app/data uladzislaukisin/sleepdetect:latest  # Run the container in detach mode and mount current dir as volume to app/data
 docker exec -it sleepdetect sh  # Enter the terminal in the container
 ```
-### Make local Python environment
+### Option 2: Make local Python environment
+If Docker doesn't work for you for some reason, you can try to install Python environment locally.
 To build local Python environment pull the git repository and install Python environment either with [conda](https://docs.conda.io/en/latest/miniconda.html) with `environent.yml` in the `env` folder or via pip (`pip install -r requirements.txt`).
-Then CLI commands should be run in the terminal from the root folder of the repository.
+Then, CLI commands should be run in the terminal from the root folder of the repository.
 
 ## CLI API
 The API interface is reached via main.py module.
@@ -130,4 +131,4 @@ Output
 ```console
 2022-12-29 13:19:26,438 Done!
 ```
-The data folder now contains one more file called `test_data_result.csv` (_result is added to original file name) where the are unique user IDs with predictions whether the user is considered as bot or not based on timely activity, IP, city and device language patterns.
+The data folder now contains one more file called `test_data_result.csv` (_result is added to original file name), where the are unique user IDs with predictions whether the user is considered as bot or not based on timely activity, IP, city and device language patterns.
