@@ -26,6 +26,8 @@ In real-world scenario we would use a more complicated rolling window statistics
 - *(DEVICE_LANGUAGE, nunique)*: Number of unique device languages that device sent requests from for a user.
 
 
+Env and API video manual can be found [here](https://drive.google.com/file/d/1zOnHKmw2vsvgaMd8TMyqfgC-eAslF8pk/view?usp=share_link).
+
 ## Experiments
 Short experiments can be found in the form of jupyter noteboks in `jnb` folder.
 There are two notebooks: one for data generation routines and one for exploration and modelling routines.
