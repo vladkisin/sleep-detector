@@ -1,4 +1,5 @@
 import uuid
+import pandas as pd
 from datetime import datetime
 from src.generate.helpers import *
 
@@ -63,3 +64,18 @@ def generate_bot_entries(ip_space, lang_space, lang_p, city_space, city_p):
         base_date = datetime(2022, 12, base_num_day, start, 0)  # Day in December 2022
         records.extend(generate_fake_hour(n_entries, equal_range, ddos, base_date, ips, ifa, langs, cities))
     return records
+
+
+def generate_dataset(n_entries, ip_space, lang_space, lang_p,
+                     city_space, city_p, input_keys, proportion_of_bots=0.2):
+    records = []
+    for _ in range(n_entries):
+        if np.random.random() <= proportion_of_bots:
+            records.extend(
+                generate_bot_entries(ip_space, lang_space, lang_p, city_space, city_p)
+            )
+        else:
+            records.extend(
+                generate_human_entries(ip_space, lang_space, lang_p, city_space, city_p)
+            )
+    return pd.DataFrame(records, columns=input_keys.USECOLS+['GENERATED_AS_BOT'])
